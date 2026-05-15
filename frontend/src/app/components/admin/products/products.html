@@ -1,0 +1,154 @@
+<div class="admin-products">
+  <div class="header-row">
+    <h1>Productos</h1>
+    <button mat-raised-button color="primary" (click)="toggleForm()">
+      <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
+      {{ showForm ? 'Cancelar' : 'Nuevo producto' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <mat-card class="form-card">
+      <mat-card-title>Nuevo producto</mat-card-title>
+      <mat-card-content>
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="newProduct.name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Slug</mat-label>
+            <input matInput [(ngModel)]="newProduct.slug" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Precio (€)</mat-label>
+            <input matInput type="number" [(ngModel)]="newProduct.price" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Stock</mat-label>
+            <input matInput type="number" [(ngModel)]="newProduct.stock" />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput rows="3" [(ngModel)]="newProduct.description"></textarea>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Imagen principal (URL)</mat-label>
+          <input matInput [(ngModel)]="newProduct.main_image" placeholder="https://..." />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="createProduct()">Crear</button>
+        <button mat-button (click)="toggleForm()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (editingProduct) {
+    <mat-card class="form-card">
+      <mat-card-title>Editar: {{ editingProduct.name }}</mat-card-title>
+      <mat-card-content>
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="editingProduct.name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Precio (€)</mat-label>
+            <input matInput type="number" [(ngModel)]="editingProduct.price" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Stock</mat-label>
+            <input matInput type="number" [(ngModel)]="editingProduct.stock" />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput rows="3" [(ngModel)]="editingProduct.description"></textarea>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Imagen principal (URL)</mat-label>
+          <input matInput [(ngModel)]="editingProduct.main_image" placeholder="https://..." />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="saveEdit()">Guardar</button>
+        <button mat-button (click)="cancelEdit()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (selectedProduct) {
+    <mat-card class="form-card">
+      <mat-card-title>Imágenes: {{ selectedProduct.name }}</mat-card-title>
+      <mat-card-content>
+        <div class="images-grid">
+          @for (img of selectedProduct.images; track img.id) {
+            <div class="image-item">
+              <img [src]="img.image" [alt]="selectedProduct.name" />
+              <button mat-icon-button color="warn" (click)="removeImage(img.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+        <div class="add-image-row">
+          <mat-form-field class="full-width">
+            <mat-label>URL de nueva imagen</mat-label>
+            <input matInput [(ngModel)]="newImageUrl" placeholder="https://..." />
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="addImage()">
+            <mat-icon>add_photo_alternate</mat-icon> Añadir
+          </button>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="selectedProduct = null">Cerrar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (loading) {
+    <mat-spinner />
+  } @else {
+    <table mat-table [dataSource]="products" class="mat-elevation-z2">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let p">{{ p.id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let p">{{ p.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Precio</th>
+        <td mat-cell *matCellDef="let p">{{ p.price }} €</td>
+      </ng-container>
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef>Stock</th>
+        <td mat-cell *matCellDef="let p">{{ p.stock }}</td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Activo</th>
+        <td mat-cell *matCellDef="let p">{{ p.active ? 'Sí' : 'No' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let p">
+          <button mat-icon-button (click)="startEdit(p)" title="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openImageManager(p)" title="Imágenes">
+            <mat-icon>photo_library</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteProduct(p.id)" title="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  }
+</div>

@@ -1,0 +1,63 @@
+@import '@angular/material/prebuilt-themes/magenta-violet.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+  color: #212121;
+}
+
+/* Fix iconos cortados en sufijo */
+.mat-mdc-form-field-icon-suffix {
+  padding-right: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+.mat-mdc-form-field-icon-prefix {
+  padding-left: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+/* Fix overflow en form fields */
+.mat-mdc-text-field-wrapper {
+  overflow: visible !important;
+}
+
+.mdc-text-field {
+  overflow: visible !important;
+}
+
+/* Fix tarjetas */
+.mat-mdc-card {
+  background-color: #ffffff !important;
+  color: #212121 !important;
+}
+
+.mat-mdc-card-title {
+  color: #212121 !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: #555555 !important;
+}
+
+/* Fix chips */
+.mat-mdc-chip {
+  background-color: #f0e6ff !important;
+  color: #6a0dad !important;
+}
+
+/* Snackbar de éxito */
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}

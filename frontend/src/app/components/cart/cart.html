@@ -1,0 +1,101 @@
+<section class="cart-container">
+  <h1>Tu carrito</h1>
+
+  @if (items().length === 0) {
+    <mat-card class="empty-cart">
+      <p>Tu carrito está vacío</p>
+      <a mat-raised-button color="primary" routerLink="/products">Ir a productos</a>
+    </mat-card>
+  } @else {
+    <div class="cart-items">
+      @for (item of items(); track item.id) {
+        <mat-card class="cart-item">
+          <div class="item-image">
+            @if (item.image) {
+              <img [src]="item.image" [alt]="item.name">
+            } @else {
+              <span>🛍️</span>
+            }
+          </div>
+
+          <div class="item-info">
+            <h3>{{ item.name }}</h3>
+            <p class="unit-price">{{ getUnitPrice(item) | currency:'USD' }}</p>
+          </div>
+
+          <div class="quantity-controls">
+            <button mat-icon-button (click)="updateQuantity(item.id, item.quantity - 1)" [disabled]="item.quantity <= 1">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <input
+              type="number"
+              min="1"
+              [max]="item.stock"
+              [value]="item.quantity"
+              (change)="updateQuantity(item.id, $any($event.target).value)"
+            >
+            <button mat-icon-button (click)="updateQuantity(item.id, item.quantity + 1)" [disabled]="item.quantity >= item.stock">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+          <div class="item-subtotal">
+            {{ getUnitPrice(item) * item.quantity | currency:'USD' }}
+          </div>
+
+          <button mat-icon-button color="warn" (click)="removeItem(item.id)" aria-label="Eliminar item">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+      }
+    </div>
+
+    <mat-card class="cart-summary">
+      <div class="shipping-section">
+        <h3>Datos de envío</h3>
+        <div class="shipping-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre completo</mat-label>
+            <input matInput [(ngModel)]="shippingForm.name" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="shippingForm.email" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Dirección</mat-label>
+            <input matInput [(ngModel)]="shippingForm.address" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ciudad</mat-label>
+            <input matInput [(ngModel)]="shippingForm.city" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>País</mat-label>
+            <input matInput [(ngModel)]="shippingForm.country" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Código postal</mat-label>
+            <input matInput [(ngModel)]="shippingForm.zip" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input matInput [(ngModel)]="shippingForm.phone">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <p class="total">Total: <strong>{{ total() | currency:'USD' }}</strong></p>
+      <div class="summary-actions">
+        <button mat-stroked-button (click)="clearCart()">Vaciar carrito</button>
+        <button mat-raised-button color="primary" (click)="confirmOrder()" [disabled]="!isShippingFormValid()">Confirmar pedido</button>
+      </div>
+    </mat-card>
+  }
+</section>

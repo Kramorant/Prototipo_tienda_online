@@ -1,0 +1,34 @@
+<h1>Mensajes de contacto</h1>
+
+@if (loading) {
+  <mat-spinner />
+} @else {
+  <table mat-table [dataSource]="contacts" class="mat-elevation-z2">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let c">{{ c.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let c">{{ c.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let c">{{ c.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="message">
+      <th mat-header-cell *matHeaderCellDef>Mensaje</th>
+      <td mat-cell *matCellDef="let c" class="message-cell">{{ c.message }}</td>
+    </ng-container>
+    <ng-container matColumnDef="read">
+      <th mat-header-cell *matHeaderCellDef>Leído</th>
+      <td mat-cell *matCellDef="let c">{{ c.read_at ? 'Sí' : 'No' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let c">{{ c.created_at | slice:0:10 }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}

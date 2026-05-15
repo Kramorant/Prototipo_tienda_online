@@ -1,0 +1,82 @@
+<div class="admin-categories">
+  <div class="header-row">
+    <h1>Categorías</h1>
+    <button mat-raised-button color="primary" (click)="toggleForm()">
+      <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
+      {{ showForm ? 'Cancelar' : 'Nueva categoría' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <mat-card class="form-card">
+      <mat-card-title>Nueva categoría</mat-card-title>
+      <mat-card-content>
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="newCategory.name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Slug</mat-label>
+            <input matInput [(ngModel)]="newCategory.slug" />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <input matInput [(ngModel)]="newCategory.description" />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="createCategory()">Crear</button>
+        <button mat-button (click)="toggleForm()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (editingCategory) {
+    <mat-card class="form-card">
+      <mat-card-title>Editar: {{ editingCategory.name }}</mat-card-title>
+      <mat-card-content>
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="editingCategory.name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Slug</mat-label>
+            <input matInput [(ngModel)]="editingCategory.slug" />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <input matInput [(ngModel)]="editingCategory.description" />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="saveEdit()">Guardar</button>
+        <button mat-button (click)="editingCategory = null">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (loading) {
+    <mat-spinner />
+  } @else {
+    <mat-list>
+      @for (cat of categories; track cat.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ cat.name }}</span>
+          <span matListItemLine>{{ cat.slug }}</span>
+          <div matListItemMeta>
+            <button mat-icon-button (click)="startEdit(cat)" title="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteCategory(cat.id)" title="Eliminar">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</div>

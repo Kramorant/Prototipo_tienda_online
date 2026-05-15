@@ -1,0 +1,45 @@
+<h1>Dashboard</h1>
+
+@if (loading) {
+  <mat-spinner />
+} @else if (error) {
+  <p class="error">{{ error }}</p>
+} @else {
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon>inventory_2</mat-icon>
+        <div class="stat-value">{{ stats.total_products }}</div>
+        <div class="stat-label">Productos</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon>receipt_long</mat-icon>
+        <div class="stat-value">{{ stats.total_orders }}</div>
+        <div class="stat-label">Pedidos</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon>people</mat-icon>
+        <div class="stat-value">{{ stats.total_users }}</div>
+        <div class="stat-label">Usuarios</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon>pending_actions</mat-icon>
+        <div class="stat-value">{{ stats.pending_orders }}</div>
+        <div class="stat-label">Pedidos pendientes</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card wide">
+      <mat-card-content>
+        <mat-icon>euro</mat-icon>
+        <div class="stat-value">{{ stats.total_revenue | number:'1.2-2' }} €</div>
+        <div class="stat-label">Ingresos totales</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

@@ -1,0 +1,39 @@
+h1 {
+  margin-bottom: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  text-align: center;
+
+  &.wide {
+    grid-column: span 2;
+  }
+
+  mat-icon {
+    font-size: 40px;
+    height: 40px;
+    width: 40px;
+    color: #673ab7;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 8px 0 4px;
+  }
+
+  .stat-label {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 0.9rem;
+  }
+}
+
+.error {
+  color: red;
+}

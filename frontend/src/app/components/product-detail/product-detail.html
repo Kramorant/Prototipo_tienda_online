@@ -1,0 +1,104 @@
+<!-- Cargando -->
+@if (loading) {
+  <div class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+}
+
+<!-- Error -->
+@if (!loading && error) {
+  <div class="not-found">
+    <h2>Producto no encontrado</h2>
+    <a mat-raised-button color="primary" routerLink="/products">Ver todos los productos</a>
+  </div>
+}
+
+<!-- Producto -->
+@if (!loading && product) {
+  <div class="detail-container">
+    <a mat-button routerLink="/products">← Volver a Productos</a>
+
+    <mat-card class="detail-card">
+
+      <!-- Imagen -->
+      <div class="gallery-container">
+        <div class="main-image-wrapper">
+          @if (selectedImage) {
+            <img [src]="selectedImage" [alt]="product.name" class="main-image" />
+          } @else {
+            <div class="placeholder-image">🛍️</div>
+          }
+        </div>
+        @if (allImages.length > 1) {
+          <div class="thumbnails">
+            @for (img of allImages; track img) {
+              <img
+                [src]="img"
+                [alt]="product.name"
+                class="thumbnail"
+                [class.active]="selectedImage === img"
+                (click)="selectImage(img)"
+              />
+            }
+          </div>
+        }
+      </div>
+
+      <mat-card-header>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-subtitle>SKU: {{ product.sku }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <!-- Chips de info -->
+        <mat-chip-set>
+          @if (product.category) {
+            <mat-chip>{{ product.category.name }}</mat-chip>
+          }
+          <mat-chip>{{ getConditionLabel(product.condition) }}</mat-chip>
+          @if (product.scale) {
+            <mat-chip>Escala {{ product.scale }}</mat-chip>
+          }
+          @if (product.featured) {
+            <mat-chip color="accent" highlighted>⭐ Destacado</mat-chip>
+          }
+        </mat-chip-set>
+
+        <!-- Descripción -->
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Precio -->
+        <div class="price-container">
+          @if (product.sale_price) {
+            <span class="original-price">{{ product.price | currency:'USD' }}</span>
+            <span class="sale-price">{{ product.sale_price | currency:'USD' }}</span>
+          } @else {
+            <span class="price">{{ product.price | currency:'USD' }}</span>
+          }
+        </div>
+
+        <!-- Stock -->
+        <p class="stock">
+          Stock disponible: <strong>{{ product.stock }} unidades</strong>
+        </p>
+
+        <!-- Fecha de lanzamiento -->
+        @if (product.release_date) {
+          <p class="release-date">Lanzamiento: {{ product.release_date | date:'mediumDate' }}</p>
+        }
+
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="product.stock === 0" (click)="addToCart()">
+          Añadir al carrito
+        </button>
+        <button mat-raised-button color="accent" [disabled]="product.stock === 0" (click)="buyNow()">
+          Comprar ahora
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
+}

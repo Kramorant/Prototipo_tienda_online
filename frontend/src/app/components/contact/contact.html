@@ -1,0 +1,48 @@
+<div class="contact-container">
+  <div class="contact-info">
+    <h1>📬 Contacto</h1>
+    <p>¿Tienes alguna pregunta? ¡Escríbenos!</p>
+    <div class="info-items">
+      <div class="info-item">
+        <mat-icon>email</mat-icon>
+        <span>info@collectiblesshop.com</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>phone</mat-icon>
+        <span>+34 900 123 456</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>location_on</mat-icon>
+        <span>Madrid, España</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-card class="contact-card">
+    <mat-card-header>
+      <mat-card-title>Envíanos un mensaje</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mensaje</mat-label>
+          <textarea matInput [(ngModel)]="message" name="message" rows="5" required></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width">
+          Enviar Mensaje
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

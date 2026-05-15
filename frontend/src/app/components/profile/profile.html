@@ -1,0 +1,93 @@
+<section class="profile-container">
+  <mat-card class="profile-header">
+    <mat-icon class="profile-avatar">account_circle</mat-icon>
+    @if (loadingUser) {
+      <mat-spinner diameter="32"></mat-spinner>
+    } @else {
+      <h1>{{ user?.name || 'Mi Perfil' }}</h1>
+      <p>{{ user?.email }}</p>
+    }
+  </mat-card>
+
+  <mat-tab-group
+    [selectedIndex]="activeTab === 'profile' ? 0 : 1"
+    (selectedIndexChange)="activeTab = $event === 0 ? 'profile' : 'orders'">
+    <mat-tab label="Mi Perfil">
+      @if (loadingUser) {
+        <div class="loading-section">
+          <mat-spinner diameter="48"></mat-spinner>
+        </div>
+      } @else {
+        <mat-card class="profile-card">
+          <p><strong>Nombre:</strong> {{ user?.name }}</p>
+          <p><strong>Email:</strong> {{ user?.email }}</p>
+          <p><strong>Miembro desde:</strong> {{ user?.created_at | date:'mediumDate' }}</p>
+
+          <div class="actions">
+            @if (authService.isLoggedIn$ | async) {
+              <button mat-raised-button color="warn" (click)="logout()">Cerrar sesión</button>
+            }
+          </div>
+        </mat-card>
+      }
+    </mat-tab>
+
+    <mat-tab label="Mis Pedidos">
+      @if (loadingOrders) {
+        <div class="loading-section">
+          <mat-spinner diameter="48"></mat-spinner>
+        </div>
+      } @else if (orders.length === 0) {
+        <mat-card class="empty-orders">
+          <p>No tienes pedidos aún</p>
+          <a mat-raised-button color="primary" routerLink="/products">Ir a productos</a>
+        </mat-card>
+      } @else {
+        <div class="orders-list">
+          @for (order of orders; track order.id) {
+            <mat-card class="order-card">
+              <div class="order-header">
+                <div>
+                  <h3>{{ order.order_number }}</h3>
+                  <p>{{ order.created_at | date:'medium' }}</p>
+                </div>
+                <mat-chip [color]="getStatusColor(order.status)" selected [class]="'status-chip status-' + order.status">
+                  {{ getStatusLabel(order.status) }}
+                </mat-chip>
+              </div>
+
+              <p class="order-total"><strong>Total:</strong> {{ order.total | currency:'USD' }}</p>
+
+              <button mat-stroked-button color="primary" (click)="selectOrder(order)">
+                {{ selectedOrder?.id === order.id ? 'Ocultar detalle' : 'Ver detalle' }}
+              </button>
+
+              @if (selectedOrder?.id === order.id) {
+                <div class="order-detail">
+                  <mat-divider></mat-divider>
+                  <div class="items-list">
+                    @for (item of order.items; track $index) {
+                      <div class="item-row">
+                        <span>{{ item.product_name }}</span>
+                        <span>Cant: {{ item.quantity }}</span>
+                        <span>{{ item.price | currency:'USD' }}</span>
+                        <span>{{ item.subtotal | currency:'USD' }}</span>
+                      </div>
+                    }
+                  </div>
+                  <mat-divider></mat-divider>
+                  <div class="totals">
+                    <p>Subtotal: {{ order.subtotal | currency:'USD' }}</p>
+                    <p>Envío: {{ order.shipping_cost | currency:'USD' }}</p>
+                    <p><strong>Total: {{ order.total | currency:'USD' }}</strong></p>
+                  </div>
+                  <button mat-button (click)="closeOrderDetail()">Cerrar detalle</button>
+                </div>
+              }
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-tab>
+  </mat-tab-group>
+</section>

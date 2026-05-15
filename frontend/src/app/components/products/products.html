@@ -1,0 +1,48 @@
+<div class="products-header">
+  <h1>Productos</h1>
+  <p>Explora nuestra colección exclusiva</p>
+</div>
+
+@if (loading) {
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+}
+
+@if (error) {
+  <div class="error">
+    <p>{{ error }}</p>
+  </div>
+}
+
+@if (!loading && !error) {
+  <div class="products-grid">
+    @for (product of products; track product.id) {
+      <mat-card class="product-card">
+        <div class="product-image">
+          @if (product.main_image) {
+            <img [src]="product.main_image" [alt]="product.name">
+          } @else {
+            🛍️
+          }
+        </div>
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+          <mat-card-subtitle>{{ product.description }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-set>
+            <mat-chip>{{ product.category?.name ?? 'Sin categoría' }}</mat-chip>
+          </mat-chip-set>
+          <p class="price">${{ product.price }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button color="primary" [routerLink]="['/products', product.id]">Ver Detalle</a>
+          <button mat-raised-button color="accent" (click)="addToCart(product)">Añadir al carrito</button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <p class="empty">No hay productos disponibles.</p>
+    }
+  </div>
+}

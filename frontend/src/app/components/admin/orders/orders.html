@@ -1,0 +1,46 @@
+<h1>Pedidos</h1>
+
+@if (loading) {
+  <mat-spinner />
+} @else {
+  <table mat-table [dataSource]="orders" class="mat-elevation-z2">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let o">{{ o.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="order_number">
+      <th mat-header-cell *matHeaderCellDef>Nº Pedido</th>
+      <td mat-cell *matCellDef="let o">{{ o.order_number }}</td>
+    </ng-container>
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef>Usuario</th>
+      <td mat-cell *matCellDef="let o">{{ o.user?.name ?? '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let o">{{ o.total }} €</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let o">
+        <mat-form-field class="status-field" subscriptSizing="dynamic">
+          <mat-select [(ngModel)]="o.status" (ngModelChange)="updateStatus(o)">
+            @for (s of statuses; track s) {
+              <mat-option [value]="s">{{ s }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let o">{{ o.created_at | slice:0:10 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let o"></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}

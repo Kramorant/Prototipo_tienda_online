@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+  <span routerLink="/" style="cursor:pointer; font-weight:bold;">🏆 Collectibles Shop</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+  <a mat-button routerLink="/products" routerLinkActive="active-link">Productos</a>
+  <a mat-button routerLink="/contact" routerLinkActive="active-link">Contacto</a>
+  <button
+    mat-icon-button
+    routerLink="/cart"
+    aria-label="Ir al carrito"
+    [matBadge]="itemCount()"
+    [matBadgeHidden]="itemCount() === 0"
+    matBadgeColor="warn">
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+  @if (isLoggedIn$ | async) {
+    @if (authService.isAdmin()) {
+      <a mat-button routerLink="/admin" routerLinkActive="active-link">
+        <mat-icon>admin_panel_settings</mat-icon> Admin
+      </a>
+    }
+    <a mat-button routerLink="/profile" aria-label="Ir al perfil">{{ userName() }}</a>
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  } @else {
+    <a mat-button routerLink="/login" routerLinkActive="active-link">Login</a>
+    <a mat-button routerLink="/register" routerLinkActive="active-link">Registro</a>
+  }
+</mat-toolbar>

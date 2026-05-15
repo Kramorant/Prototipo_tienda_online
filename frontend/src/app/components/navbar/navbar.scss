@@ -1,0 +1,12 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.active-link {
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
+button[mat-icon-button] {
+  margin: 0 4px;
+}

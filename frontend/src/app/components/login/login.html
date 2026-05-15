@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>🔐 Iniciar Sesión</mat-card-title>
+      <mat-card-subtitle>Accede a tu cuenta</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        @if (error) {
+          <p role="alert" aria-live="polite">{{ error }}</p>
+        }
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required placeholder="tu@email.com">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="loading">
+          @if (loading) {
+            Iniciando sesión...
+          } @else {
+            Iniciar Sesión
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+    </mat-card-actions>
+  </mat-card>
+</div>
