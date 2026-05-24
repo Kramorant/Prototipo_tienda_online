@@ -127,3 +127,71 @@
     justify-self: start;
   }
 }
+
+/* Mejorar contraste de campos del formulario */
+:host ::ng-deep .shipping-form .mat-mdc-form-field .mdc-floating-label {
+  color: #8a6f8f !important;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .shipping-form .mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: #5b3d61 !important;
+}
+
+:host ::ng-deep .shipping-form .mat-mdc-input-element {
+  color: #1f1f1f !important;
+  caret-color: #6a0dad !important;
+}
+
+:host ::ng-deep .shipping-form .mat-mdc-input-element::placeholder {
+  color: #9a879d !important;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .shipping-form .mdc-notched-outline__leading,
+:host ::ng-deep .shipping-form .mdc-notched-outline__notch,
+:host ::ng-deep .shipping-form .mdc-notched-outline__trailing {
+  border-color: #b79fbb !important;
+}
+
+:host ::ng-deep .shipping-form .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .shipping-form .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .shipping-form .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #d16be0 !important;
+  border-width: 2px !important;
+}
+
+/* Botones de cantidad */
+.quantity-controls button {
+  color: #5b3d61 !important;
+}
+
+.quantity-controls button[disabled] {
+  color: #d8c7d8 !important;
+}
+
+.quantity-controls input {
+  color: #1f1f1f;
+  background: #ffffff;
+}
+
+/* Botón eliminar */
+.cart-item button[color='warn'] {
+  color: #c05a8d !important;
+}
+
+.cart-item button[color='warn']:hover {
+  color: #a63f73 !important;
+}
+
+/* Mejorar contraste de botón secundario */
+.summary-actions button[mat-stroked-button] {
+  color: #c256b7 !important;
+  border-color: #c79acb !important;
+}
+
+/* Estado vacío */
+.empty-cart p {
+  color: #2a1f2d;
+  font-size: 1.1rem;
+}

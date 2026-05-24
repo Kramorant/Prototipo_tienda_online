@@ -9,14 +9,14 @@ class ContactMessageController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email',
-            'subject' => 'nullable|string|max:255',
-            'message' => 'required|string',
+        $validated = $request->validate([
+            'name'    => 'required|string|max:100',
+            'email'   => 'required|email|max:150',
+            'subject' => 'nullable|string|max:150',
+            'message' => 'required|string|max:2000',
         ]);
 
-        $message = ContactMessage::create($request->all());
+        ContactMessage::create($validated);
 
         return response()->json([
             'message' => '¡Mensaje enviado correctamente!'

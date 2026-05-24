@@ -54,3 +54,17 @@
   width: 100%;
   margin-bottom: 16px;
 }
+
+.mat-mdc-input-element {
+  color: #222 !important;
+  caret-color: #6a0dad !important;
+}
+
+.mat-mdc-input-element::placeholder {
+  color: #b88bb8 !important;
+  opacity: 1;
+}
+
+.mat-mdc-floating-label {
+  color: #c06ac0 !important;
+}

@@ -34,10 +34,6 @@
   }
 }
 
-mat-chip-set {
-  margin: 1rem 0;
-}
-
 .description {
   margin: 1rem 0;
   color: #555;
@@ -146,4 +142,87 @@ mat-card-actions {
     border-color: #3f51b5;
     opacity: 1;
   }
+}
+
+.product-chips {
+  margin: 1rem 0;
+}
+
+.product-chips mat-chip {
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+
+.category-chip {
+  background: #f3e8ff !important;
+  color: #111111 !important;
+  border-color: #c084fc !important;
+}
+
+.condition-chip {
+  background: #fce7f3 !important;
+  color: #111111 !important;
+  border-color: #f9a8d4 !important;
+}
+
+.scale-chip {
+  background: #ede9fe !important;
+  color: #111111 !important;
+  border-color: #a5b4fc !important;
+}
+
+.featured-chip {
+  background: #fef3c7 !important;
+  color: #111111 !important;
+  border-color: #fcd34d !important;
+}
+
+/* Fuerza el color del texto interno de Angular Material */
+.category-chip *,
+.condition-chip *,
+.scale-chip *,
+.featured-chip * {
+  color: #111111 !important;
+}
+
+/* Refuerzo específico para el texto interno del chip MDC */
+.product-chips .mdc-evolution-chip__text-label {
+  color: #111111 !important;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .product-chips .category-chip .mdc-evolution-chip__text-label,
+:host ::ng-deep .product-chips .condition-chip .mdc-evolution-chip__text-label,
+:host ::ng-deep .product-chips .scale-chip .mdc-evolution-chip__text-label,
+:host ::ng-deep .product-chips .featured-chip .mdc-evolution-chip__text-label {
+  color: #111111 !important;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .product-chips .category-chip,
+:host ::ng-deep .product-chips .condition-chip,
+:host ::ng-deep .product-chips .scale-chip,
+:host ::ng-deep .product-chips .featured-chip {
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .product-chips .category-chip {
+  background: #f3e8ff !important;
+  border: 1px solid #c084fc !important;
+}
+
+:host ::ng-deep .product-chips .condition-chip {
+  background: #fce7f3 !important;
+  border: 1px solid #f9a8d4 !important;
+}
+
+:host ::ng-deep .product-chips .scale-chip {
+  background: #ede9fe !important;
+  border: 1px solid #a5b4fc !important;
+}
+
+:host ::ng-deep .product-chips .featured-chip {
+  background: #fef3c7 !important;
+  border: 1px solid #fcd34d !important;
 }

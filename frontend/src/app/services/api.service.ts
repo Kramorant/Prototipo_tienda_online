@@ -50,6 +50,11 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/categories`, { headers: this.getHeaders() });
   }
 
+  // TAGS
+getTags(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/tags`, { headers: this.getHeaders() });
+}
+
   // CONTACT
   sendContact(data: { name: string; email: string; message: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/contact`, data, { headers: this.getHeaders() });

@@ -9,26 +9,76 @@
       <form (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nombre completo</mat-label>
-          <input matInput type="text" [(ngModel)]="name" name="name" required>
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="name"
+            name="name"
+            required
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required>
+          <input
+            matInput
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Contraseña</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            [(ngModel)]="password"
+            name="password"
+            required
+          >
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+            [attr.aria-pressed]="!hidePassword"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Confirmar contraseña</mat-label>
-          <input matInput type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+          <input
+            matInput
+            [type]="hideConfirmPassword ? 'password' : 'text'"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            required
+          >
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hideConfirmPassword = !hideConfirmPassword"
+            [attr.aria-label]="hideConfirmPassword ? 'Mostrar confirmación de contraseña' : 'Ocultar confirmación de contraseña'"
+            [attr.aria-pressed]="!hideConfirmPassword"
+          >
+            <mat-icon>{{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" class="full-width">
-          Crear Cuenta
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Creando cuenta...' : 'Crear Cuenta' }}
         </button>
       </form>
     </mat-card-content>

@@ -39,9 +39,9 @@
           <textarea matInput [(ngModel)]="message" name="message" rows="5" required></textarea>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" class="full-width">
-          Enviar Mensaje
-        </button>
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="isSubmitting">
+  {{ isSubmitting ? 'Enviando...' : 'Enviar Mensaje' }}
+</button>
       </form>
     </mat-card-content>
   </mat-card>

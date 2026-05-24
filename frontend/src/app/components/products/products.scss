@@ -57,3 +57,18 @@
   color: #6a0dad;
   margin-top: 8px;
 }
+
+:host ::ng-deep .mat-mdc-chip-set {
+  margin-top: 0.5rem;
+}
+
+:host ::ng-deep .mat-mdc-chip {
+  background-color: #f3e7f6 !important;
+  border: 1px solid #caa6d3 !important;
+}
+
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
+  color: #7a4a84 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}

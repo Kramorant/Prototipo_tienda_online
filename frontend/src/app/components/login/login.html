@@ -8,17 +8,40 @@
     <mat-card-content>
       <form (ngSubmit)="onSubmit()">
         @if (error) {
-          <p role="alert" aria-live="polite">{{ error }}</p>
+          <p class="auth-error" role="alert" aria-live="polite">{{ error }}</p>
         }
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required placeholder="tu@email.com">
+          <input
+            matInput
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            placeholder=""
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Contraseña</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            [(ngModel)]="password"
+            name="password"
+            required
+          >
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+            [attr.aria-pressed]="!hidePassword"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="loading">

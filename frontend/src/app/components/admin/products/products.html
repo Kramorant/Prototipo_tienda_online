@@ -10,72 +10,248 @@
   @if (showForm) {
     <mat-card class="form-card">
       <mat-card-title>Nuevo producto</mat-card-title>
-      <mat-card-content>
-        <div class="form-row">
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput [(ngModel)]="newProduct.name" />
+
+      <form #productForm="ngForm">
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Nombre</mat-label>
+              <input
+                matInput
+                [(ngModel)]="newProduct.name"
+                name="name"
+                required
+                #nameModel="ngModel"
+                (ngModelChange)="updateNewProductSlug()"
+              />
+              @if (nameModel.invalid && nameModel.touched) {
+                <mat-error>El nombre es obligatorio.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Slug</mat-label>
+              <input
+                matInput
+                [(ngModel)]="newProduct.slug"
+                name="slug"
+                required
+                #slugModel="ngModel"
+              />
+              @if (slugModel.invalid && slugModel.touched) {
+                <mat-error>El slug es obligatorio.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Precio (€)</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="newProduct.price"
+                name="price"
+                required
+                min="0"
+                #priceModel="ngModel"
+              />
+              @if (priceModel.errors?.['required'] && priceModel.touched) {
+                <mat-error>El precio es obligatorio.</mat-error>
+              }
+              @if (priceModel.errors?.['min'] && priceModel.touched) {
+                <mat-error>El precio no puede ser negativo.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Stock</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="newProduct.stock"
+                name="stock"
+                required
+                min="0"
+                #stockModel="ngModel"
+              />
+              @if (stockModel.errors?.['required'] && stockModel.touched) {
+                <mat-error>El stock es obligatorio.</mat-error>
+              }
+              @if (stockModel.errors?.['min'] && stockModel.touched) {
+                <mat-error>El stock no puede ser negativo.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Categoría</mat-label>
+              <mat-select [(ngModel)]="newProduct.category_id" name="newCategoryId">
+                <mat-option [value]="null">Sin categoría</mat-option>
+                @for (category of categories; track category.id) {
+                  <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              [(ngModel)]="newProduct.description"
+              name="description"
+            ></textarea>
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Slug</mat-label>
-            <input matInput [(ngModel)]="newProduct.slug" />
+
+          <mat-form-field class="full-width">
+            <mat-label>Imagen principal (URL)</mat-label>
+            <input
+              matInput
+              [(ngModel)]="newProduct.main_image"
+              name="main_image"
+              placeholder="https://..."
+            />
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Precio (€)</mat-label>
-            <input matInput type="number" [(ngModel)]="newProduct.price" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Stock</mat-label>
-            <input matInput type="number" [(ngModel)]="newProduct.stock" />
-          </mat-form-field>
-        </div>
-        <mat-form-field class="full-width">
-          <mat-label>Descripción</mat-label>
-          <textarea matInput rows="3" [(ngModel)]="newProduct.description"></textarea>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <mat-label>Imagen principal (URL)</mat-label>
-          <input matInput [(ngModel)]="newProduct.main_image" placeholder="https://..." />
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="createProduct()">Crear</button>
-        <button mat-button (click)="toggleForm()">Cancelar</button>
-      </mat-card-actions>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="createProduct()"
+            [disabled]="productForm.invalid"
+          >
+            Crear
+          </button>
+          <button mat-button type="button" (click)="toggleForm()">Cancelar</button>
+        </mat-card-actions>
+      </form>
     </mat-card>
   }
 
   @if (editingProduct) {
     <mat-card class="form-card">
       <mat-card-title>Editar: {{ editingProduct.name }}</mat-card-title>
-      <mat-card-content>
-        <div class="form-row">
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput [(ngModel)]="editingProduct.name" />
+
+      <form #editProductForm="ngForm">
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Nombre</mat-label>
+              <input
+                matInput
+                [(ngModel)]="editingProduct.name"
+                name="editName"
+                required
+                #editNameModel="ngModel"
+                (ngModelChange)="updateEditProductSlug()"
+              />
+              @if (editNameModel.invalid && editNameModel.touched) {
+                <mat-error>El nombre es obligatorio.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Slug</mat-label>
+              <input
+                matInput
+                [(ngModel)]="editingProduct.slug"
+                name="editSlug"
+                required
+                #editSlugModel="ngModel"
+              />
+              @if (editSlugModel.invalid && editSlugModel.touched) {
+                <mat-error>El slug es obligatorio.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Precio (€)</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="editingProduct.price"
+                name="editPrice"
+                required
+                min="0"
+                #editPriceModel="ngModel"
+              />
+              @if (editPriceModel.errors?.['required'] && editPriceModel.touched) {
+                <mat-error>El precio es obligatorio.</mat-error>
+              }
+              @if (editPriceModel.errors?.['min'] && editPriceModel.touched) {
+                <mat-error>El precio no puede ser negativo.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Stock</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="editingProduct.stock"
+                name="editStock"
+                required
+                min="0"
+                #editStockModel="ngModel"
+              />
+              @if (editStockModel.errors?.['required'] && editStockModel.touched) {
+                <mat-error>El stock es obligatorio.</mat-error>
+              }
+              @if (editStockModel.errors?.['min'] && editStockModel.touched) {
+                <mat-error>El stock no puede ser negativo.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Categoría</mat-label>
+              <mat-select [(ngModel)]="editingProduct.category_id" name="editCategoryId">
+                <mat-option [value]="null">Sin categoría</mat-option>
+                @for (category of categories; track category.id) {
+                  <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              [(ngModel)]="editingProduct.description"
+              name="editDescription"
+            ></textarea>
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Precio (€)</mat-label>
-            <input matInput type="number" [(ngModel)]="editingProduct.price" />
+
+          <mat-form-field class="full-width">
+            <mat-label>Imagen principal (URL)</mat-label>
+            <input
+              matInput
+              [(ngModel)]="editingProduct.main_image"
+              name="editMainImage"
+              placeholder="https://..."
+            />
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Stock</mat-label>
-            <input matInput type="number" [(ngModel)]="editingProduct.stock" />
-          </mat-form-field>
-        </div>
-        <mat-form-field class="full-width">
-          <mat-label>Descripción</mat-label>
-          <textarea matInput rows="3" [(ngModel)]="editingProduct.description"></textarea>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <mat-label>Imagen principal (URL)</mat-label>
-          <input matInput [(ngModel)]="editingProduct.main_image" placeholder="https://..." />
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="saveEdit()">Guardar</button>
-        <button mat-button (click)="cancelEdit()">Cancelar</button>
-      </mat-card-actions>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="saveEdit()"
+            [disabled]="editProductForm.invalid"
+          >
+            Guardar
+          </button>
+          <button mat-button type="button" (click)="cancelEdit()">Cancelar</button>
+        </mat-card-actions>
+      </form>
     </mat-card>
   }
 
@@ -93,16 +269,20 @@
             </div>
           }
         </div>
+
         <div class="add-image-row">
           <mat-form-field class="full-width">
             <mat-label>URL de nueva imagen</mat-label>
             <input matInput [(ngModel)]="newImageUrl" placeholder="https://..." />
           </mat-form-field>
+
           <button mat-raised-button color="primary" (click)="addImage()">
-            <mat-icon>add_photo_alternate</mat-icon> Añadir
+            <mat-icon>add_photo_alternate</mat-icon>
+            Añadir
           </button>
         </div>
       </mat-card-content>
+
       <mat-card-actions>
         <button mat-button (click)="selectedProduct = null">Cerrar</button>
       </mat-card-actions>
@@ -110,29 +290,34 @@
   }
 
   @if (loading) {
-    <mat-spinner />
+    <mat-spinner></mat-spinner>
   } @else {
     <table mat-table [dataSource]="products" class="mat-elevation-z2">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let p">{{ p.id }}</td>
       </ng-container>
+
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Nombre</th>
         <td mat-cell *matCellDef="let p">{{ p.name }}</td>
       </ng-container>
+
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef>Precio</th>
         <td mat-cell *matCellDef="let p">{{ p.price }} €</td>
       </ng-container>
+
       <ng-container matColumnDef="stock">
         <th mat-header-cell *matHeaderCellDef>Stock</th>
         <td mat-cell *matCellDef="let p">{{ p.stock }}</td>
       </ng-container>
+
       <ng-container matColumnDef="active">
         <th mat-header-cell *matHeaderCellDef>Activo</th>
         <td mat-cell *matCellDef="let p">{{ p.active ? 'Sí' : 'No' }}</td>
       </ng-container>
+
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let p">
@@ -147,8 +332,9 @@
           </button>
         </td>
       </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   }
 </div>

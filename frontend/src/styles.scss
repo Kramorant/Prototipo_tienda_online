@@ -61,3 +61,12 @@ body {
   background-color: #4caf50 !important;
   color: white !important;
 }
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #fdf4ff !important;
+  --mdc-snackbar-supporting-text-color: #2a1f2d !important;
+}
+
+.success-snackbar .mdc-button__label {
+  color: #c02fc0 !important;
+}

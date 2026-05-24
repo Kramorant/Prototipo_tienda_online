@@ -52,18 +52,18 @@
       <mat-card-content>
 
         <!-- Chips de info -->
-        <mat-chip-set>
-          @if (product.category) {
-            <mat-chip>{{ product.category.name }}</mat-chip>
-          }
-          <mat-chip>{{ getConditionLabel(product.condition) }}</mat-chip>
-          @if (product.scale) {
-            <mat-chip>Escala {{ product.scale }}</mat-chip>
-          }
-          @if (product.featured) {
-            <mat-chip color="accent" highlighted>⭐ Destacado</mat-chip>
-          }
-        </mat-chip-set>
+        <mat-chip-set class="product-chips">
+  @if (product.category) {
+    <mat-chip class="category-chip">{{ product.category.name }}</mat-chip>
+  }
+  <mat-chip class="condition-chip">{{ getConditionLabel(product.condition) }}</mat-chip>
+  @if (product.scale) {
+    <mat-chip class="scale-chip">Escala {{ product.scale }}</mat-chip>
+  }
+  @if (product.featured) {
+    <mat-chip class="featured-chip">⭐ Destacado</mat-chip>
+  }
+</mat-chip-set>
 
         <!-- Descripción -->
         <p class="description">{{ product.description }}</p>

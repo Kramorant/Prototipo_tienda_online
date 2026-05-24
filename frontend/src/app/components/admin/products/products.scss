@@ -58,3 +58,27 @@ table {
   align-items: flex-end;
   gap: 16px;
 }
+
+.mat-mdc-input-element,
+textarea.mat-mdc-input-element {
+  color: #1f1720 !important;
+}
+
+.mat-mdc-select-min-line,
+.mat-mdc-select-value-text,
+.mat-mdc-select-value {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.mat-mdc-floating-label {
+  color: #ffb3f3 !important;
+}
+
+.mat-mdc-select-arrow {
+  color: #f3d8f0 !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  color: #f8f8f8 !important;
+}

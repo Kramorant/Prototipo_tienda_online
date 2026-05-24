@@ -115,6 +115,46 @@
   color: #842029;
 }
 
+/* Mejoras visuales para las pestañas */
+:host ::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid #d8c7d8;
+  margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep .mat-mdc-tab {
+  min-width: 160px;
+  font-weight: 600;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #8a6f8f !important;
+  transition: color 0.2s ease;
+}
+
+:host ::ng-deep .mat-mdc-tab:hover .mdc-tab__text-label {
+  color: #4b2f52 !important;
+}
+
+:host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #2a1f2d !important;
+  font-weight: 700;
+}
+
+:host ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: #e58be5 !important;
+  border-top-width: 3px !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-header-pagination-chevron {
+  border-color: #5b3d61 !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-ripple,
+:host ::ng-deep .mat-ripple-element {
+  opacity: 0.08;
+}
+
 @media (max-width: 768px) {
   .item-row {
     grid-template-columns: 1fr 1fr;

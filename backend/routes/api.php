@@ -38,7 +38,7 @@ Route::get('/posts',        [PostController::class, 'index']);
 Route::get('/posts/{post}', [PostController::class, 'show']);
 
 // Contacto (público)
-Route::post('/contact', [ContactMessageController::class, 'store']);
+Route::post('/contact', [ContactMessageController::class, 'store'])->middleware('throttle:5,1');;
 
 // ─── Rutas privadas (requieren autenticación) ─────────────────
 Route::middleware('auth:sanctum')->group(function () {
